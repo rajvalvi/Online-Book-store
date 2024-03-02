@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'social_book.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'social',
+        'NAME': 'social_book',
         'USER': 'raj',
         'PASSWORD': 'root'
     }

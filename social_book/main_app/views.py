@@ -9,7 +9,7 @@ def Register(request):
             form.save()
             email = form.cleaned_data.get('email')
             messages.success(request, f'Account created for {email}!')
-            return redirect('login')  # Redirect to login page after successful registration
+            # return redirect('login')  # Redirect to login page after successful registration
     else:
         form = CustomUserCreationForm()
     return render(request, 'register2.html', {'form': form})
