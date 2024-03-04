@@ -1,51 +1,45 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import CustomUserCreationForm
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.contrib.auth.forms import AuthenticationForm
+from .models import CustomUser
 
-def Register(request):
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        print(email, password)
+        user = authenticate(request, email=email, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect('home') 
+        else:
+            return HttpResponse("Invalid email or password.")
+    return render(request, 'login.html')
+
+
+def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
             messages.success(request, f'Account created for {email}!')
-            # return redirect('login')  # Redirect to login page after successful registration
+            return redirect('login')  # Redirect to login page after successful registration
     else:
         form = CustomUserCreationForm()
-    return render(request, 'register2.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
-# from django.shortcuts import render, HttpResponse, redirect
-# from django.contrib.auth.models import User
-# from django.contrib.auth import  authenticate, login
-# # Create your views here.
-# def Home(request):
-#     return render (request, 'Home.html')
+def home(request):
+    return render (request, 'Home.html')
 
-# def Login(request):
-#     if request.method=='POST':
-#         uname= request.POST.get('username')
-#         pwd=request.POST.get('password')
-#         user = authenticate(request, username=uname, password=pwd)
-#         if user is not None:
-#             login(request,user)
-#             return redirect('home')
-#         else:
-#             return HttpResponse("Invalid Credentials")
 
-        
-#     return render (request, 'login.html')
-
-# def Register(request):
-#     if request.method=='POST':
-#         uname = request.POST.get('username')
-#         email = request.POST.get('email')
-#         pass1 = request.POST.get('password1')
-#         pass2 = request.POST.get('password2')
-#         if pass1!=pass2:
-#             return HttpResponse("Password Missmatched")
-#         else:
-#             my_user = User.objects.create_user(uname,email,pass1)
-#             my_user.save()
-#             return redirect('login')
-        
-#     return render (request, 'register.html')
+def authors_and_sellers(request):
+    users = CustomUser.objects.filter(public_visibility=True)
+    author = CustomUser.objects.filter(public_visibility=True,user_type='Auther')
+    Sellers = CustomUser.objects.filter(public_visibility=True,user_type='Sellers')
+    return render(request, 'authors_and_sellers.html', {'users': users,'author':author,'Sellers':Sellers })
