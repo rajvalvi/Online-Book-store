@@ -4,7 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from datetime import date
 from .managers import CustomUserManager
+from sqlalchemy import create_engine
 
+# Create SQLAlchemy engine
+engine = create_engine('postgresql://raj:root@localhost/social_book')
     
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     gender_choice = [
@@ -61,4 +64,12 @@ class Member(models.Model):
   firstname = models.CharField(max_length=255)
   lastname = models.CharField(max_length=255)
   address = models.CharField(max_length=255, default = 'NA')
+  
+class Books(models.Model):
+  title = models.CharField(max_length=255)
+  description = models.CharField(max_length=500)
+  visibility = models.BooleanField(default=True)
+  cost = models.IntegerField()
+  year_publish = models.IntegerField()
+  file = models.FileField(upload_to='books/', null=True, default=None)
   

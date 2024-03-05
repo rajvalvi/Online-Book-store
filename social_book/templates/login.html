@@ -70,22 +70,20 @@
 						<form action="" Method="post">
 							{% csrf_token %}
 							<div class="select-role">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								{% comment %} <div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="btn active">
 										<input type="radio" name="options" id="admin">
-										{% comment %} <div class="icon"><img src="vendors/images/briefcase.svg" class="svg" alt=""></div> {% endcomment %}
 										<div class="icon"><img src="{% static '/images/briefcase.svg' %}" class="svg" alt=""></div>
 										<span>I'm</span>
 										Manager
 									</label>
 									<label class="btn">
 										<input type="radio" name="options" id="user">
-										{% comment %} <div class="icon"><img src="vendors/images/person.svg" class="svg" alt=""></div> {% endcomment %}
 										<div class="icon"><img src="{% static '/images/person.svg' %}" class="svg" alt=""></div>
 										<span>I'm</span>
 										Employee
 									</label>
-								</div>
+								</div> {% endcomment %}
 							</div>
 							<div class="input-group custom">
 								<input type="email" name="email" class="form-control form-control-lg" placeholder="email">

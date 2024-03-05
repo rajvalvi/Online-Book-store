@@ -34,35 +34,14 @@
 
 </head>
 <body>
-
-    <div style="width: 30%;">
-    <h3>All user with public visibilty On</h3>
-    <table border="2px">
-        <tr>
-            <th>name</th>
-            <th>city</th>
-            <th>age</th>
-        </tr>
-        {% for user in users %}
-        <tr>
-            
-                <td>{{ user.full_name }}</td>
-                <td>{{ user.city }}</td>
-                <td>{{ user.age }}</td>
-           
-        </tr>
-         {% endfor %}
-    </table>
-    </div>
-
     <br>
-    <div style="width: 30%;">
-    <h3>All Authors with public visibilty On</h3>
+  <div style="width: 30%; margin: 0 auto; text-align: center;">
+    <h3>Authors</h3>
     <table border="2px">
         <tr>
-            <th>name</th>
-            <th>city</th>
-            <th>age</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Age</th>
         </tr>
         {% for auth in author %}
         <tr>
@@ -70,27 +49,6 @@
                 <td>{{ auth.full_name }}</td>
                 <td>{{ auth.city }}</td>
                 <td>{{ auth.age }}</td>
-           
-        </tr>
-         {% endfor %}
-    </table>
-    </div>
-
-    <br>
-    <div style="width: 30%;">
-    <h3>All Sellers with public visibilty On</h3>
-    <table border="2px">
-        <tr>
-            <th>name</th>
-            <th>city</th>
-            <th>age</th>
-        </tr>
-        {% for sell in Sellers %}
-        <tr>
-            
-                <td>{{ sell.full_name }}</td>
-                <td>{{ sell.city }}</td>
-                <td>{{ sell.age }}</td>
            
         </tr>
          {% endfor %}

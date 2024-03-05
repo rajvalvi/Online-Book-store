@@ -1,6 +1,5 @@
 from django import forms
-from .models import CustomUser
-
+from .models import CustomUser,Books
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -67,3 +66,9 @@ class CustomUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class UploadBookForm(forms.ModelForm):
+    class Meta:
+        model = Books
+        fields = ['title', 'description', 'visibility', 'cost', 'year_publish', 'file']

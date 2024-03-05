@@ -15,13 +15,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from main_app import views
+# from apis import views
+from django.conf import settings
+from django.conf.urls.static import static
+# from rest_framework import routers
+# from apis.views import *
+
+# define the router
+# router = routers.DefaultRouter()
+ 
+# define the router path and viewset to be used
+# router.register(r'geeks', GeeksViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/',views.register, name='register'),
-    path('home/',views.home, name='home'),
+    path('index/',views.index, name='index'),
     path('login/',views.login_view, name='login'),
-    path('authors_and_sellers/',views.authors_and_sellers, name='authors_and_sellers'),
+    path('authors/',views.authors, name='authors'),
+    path('sellers/',views.sellers, name='sellers'),
+    path('upload_book/',views.upload_book, name='upload_book'),
+    path('view_book/',views.view_book, name='view_book'),
+    path('fetch_data/',views.fetch_data, name='fetch_data'),
+    # path('auth/', include('djoser.urls')),
+    # path('', include("apis.urls")),
+    # path('api-auth/', include('rest_framework.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
