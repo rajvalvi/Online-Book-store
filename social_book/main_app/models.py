@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 
 # Create SQLAlchemy engine
 engine = create_engine('postgresql://raj:root@localhost/social_book')
-    
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     gender_choice = [
       ("Male", "Male"),
@@ -22,22 +22,51 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ("American Express", "American Express"),
         ("Discover", "Discover") 
     ]
+    
     user_choices=[
       ("Auther","Auther"),
       ("Sellers","Sellers")
     ]
     
+    month_choice=[
+    (1, "January"),
+    (2, "February"),
+    (3, "March"),
+    (4, "April"),
+    (5, "May"),
+    (6, "June"),
+    (7, "July"),
+    (8, "August"),
+    (9, "September"),
+    (10, "October"),
+    (11, "November"),
+    (12, "December"),
+    ]
+    
+    year_choice=[
+      (2024,2024),
+      (2025,2025),
+      (2026,2026),
+      (2027,2027),
+      (2028,2028),
+      (2029,2029),
+      (2030,2030),
+    ]
+    
+    
+    
     email = models.EmailField(_("email address"), unique=True)
-    user_name = models.CharField(max_length=255)
-    full_name = models.CharField(max_length=255)
-    gender = models.CharField(choices=gender_choice, max_length=255)
-    user_type = models.CharField(choices = user_choices, max_length=50, blank=True,)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    credit_card_type = models.CharField(choices = credit_card_choices, max_length=255)
-    credit_card_number = models.IntegerField()
-    CVC = models.IntegerField()
-    expiry_date = models.DateField()
+    user_name = models.CharField(max_length=255, blank=True)
+    full_name = models.CharField(max_length=255, blank=True)
+    gender = models.CharField(choices=gender_choice, max_length=255, blank=True)
+    user_type = models.CharField(choices = user_choices, max_length=50, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=255, blank=True)
+    credit_card_type = models.CharField(choices = credit_card_choices, max_length=255, blank=True)
+    credit_card_number = models.BigIntegerField(blank=True, null=True)
+    CVC = models.IntegerField(blank=True, null=True)
+    expiry_month = models.IntegerField(choices = month_choice, blank=True, null=True)
+    expiry_year = models.IntegerField(choices = year_choice, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -60,13 +89,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
-class Member(models.Model):
-  firstname = models.CharField(max_length=255)
-  lastname = models.CharField(max_length=255)
-  address = models.CharField(max_length=255, default = 'NA')
-  
 class Books(models.Model):
+  user_id = models.IntegerField(null=True)
   title = models.CharField(max_length=255)
+  image = models.ImageField(upload_to='cover_page/', null=True, default=None)
   description = models.CharField(max_length=500)
   visibility = models.BooleanField(default=True)
   cost = models.IntegerField()

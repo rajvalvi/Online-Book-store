@@ -5,7 +5,7 @@
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+	<title>Social Book</title>
 
 	<!-- Site favicon -->
 	{% comment %} <link rel="apple-touch-icon" sizes="180x180" href="static/images/apple-touch-icon.png"> {% endcomment %}
@@ -47,7 +47,9 @@
 			<div class="brand-logo">
 				<a href="login.html">
 					{% comment %} <img src="vendors/images/deskapp-logo.svg" alt=""> {% endcomment %}
-					<img src="{% static '/images/deskapp-logo.svg' %}" alt="">
+					{% comment %} <img src="{% static '/images/deskapp-logo.svg' %}" alt=""> {% endcomment %}
+					<h2> Social Book </h2>
+					</a>
 				</a>
 			</div>
 			<div class="login-menu">
@@ -76,14 +78,28 @@
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Email Address*</label>
 											<div class="col-sm-8">
+											{% if form.email.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.email.errors %}
+                    									<li>{{ error }}</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
 												{{ form.email }}
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-sm-4 col-form-label">Username*</label>
-											<div class="col-sm-8">
-												{{ form.user_name }}
-											</div>
+    										<label class="col-sm-4 col-form-label">Username*</label>
+    									<div class="col-sm-8">
+        									{% if form.user_name.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.user_name.errors %}
+                    									<li>{{ error }}</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
+        									{{ form.user_name }}
+    									</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">User Type</label>
@@ -94,15 +110,22 @@
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Password*</label>
 											<div class="col-sm-8">
+												{% if form.password.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.password.errors %}
+                    									<li>{{ error }}</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
 												{{ form.password }}
 											</div>
 										</div>
-										<div class="form-group row">
+										{% comment %} <div class="form-group row">
 											<label class="col-sm-4 col-form-label">Confirm Password*</label>
 											<div class="col-sm-8">
 												{{ form.password }}
 											</div>
-										</div>
+										</div> {% endcomment %}
 									</div>
 								</section>
 								<!-- Step 2 -->
@@ -163,14 +186,33 @@
 								<h5>Payment Method & Info</h5>
 								<section>
 									<div class="form-wrap max-width-600 mx-auto">
+										{% if form.user_name.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.user_name.errors %}
+                    									<li>Check Username</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
+										
+										{% if form.email.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.email.errors %}
+                    									<li>Check Email</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
+
+										{% if form.Password.errors %}
+            									<ul class="text-danger">
+                									{% for error in form.password.errors %}
+                    									<li>Check Password</li>
+                									{% endfor %}
+            									</ul>
+        									{% endif %}
+
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Credit Card Type</label>
 											<div class="col-sm-8">
-												{% comment %} <select class="form-control selectpicker" title="Select Card Type">
-													<option value="1">Option 1</option>
-													<option value="2">Option 2</option>
-													<option value="3">Option 3</option>
-												</select>  {% endcomment %}
 												{{ form.credit_card_type }}
 											</div>
 										</div>
@@ -189,49 +231,23 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-sm-4 col-form-label">Expiration Date</label>
+											<label class="col-sm-4 col-form-label"> Card Expiry : </label>
 											<div class="col-sm-8">
 												<div class="row">
-													<div class="col-6">
-														{% comment %} <select class="form-control selectpicker" title="Month" data-size="5">
-															<option value='01'>January</option>
-															<option value='02'>February</option>
-															<option value='03'>March</option>
-															<option value='04'>April</option>
-															<option value='05'>May</option>
-															<option value='06'>June</option>
-															<option value='07'>July</option>
-															<option value='08'>August</option>
-															<option value='09'>September</option>
-															<option value='10'>October</option>
-															<option value='11'>November</option>
-															<option value='12'>December</option>
-														</select>
-													</div>
-													<div class="col-6">
-														<select class="form-control selectpicker" title="Year" data-size="5">
-															<option>2020</option>
-															<option>2019</option>
-															<option>2018</option>
-															<option>2017</option>
-															<option>2016</option>
-															<option>2015</option>
-															<option>2014</option>
-															<option>2013</option>
-															<option>2012</option>
-															<option>2011</option>
-															<option>2010</option>
-															<option>2009</option>
-														</select> {% endcomment %}
-														{{ form.expiry_date }}
-													</div>
+													 <div class="col-md-6">
+                										{{ form.expiry_month }}
+            										</div>
+            										<div class="col-md-6">
+                										{{ form.expiry_year }}
+            										</div>
 												</div>
 											</div>
 										</div>
+										<input class="btn btn-primary" type="submit" value="Submit">
 									</div>
 								</section>
 								<!-- Step 4 -->
-								<h5>Overview Information</h5>
+								{% comment %} <h5>Overview Information</h5>
 								<section>
 									<div class="form-wrap max-width-600 mx-auto">
 										<ul class="register-info">
@@ -272,7 +288,7 @@
 											<input type="submit" value="submit">
 										</div>
 									</div>
-								</section>
+								</section> {% endcomment %}
 							</form>
 						</div>
 					</div>
@@ -280,6 +296,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- success Popup html Start -->
 	<button type="button" id="success-modal-btn" hidden data-toggle="modal" data-target="#success-modal" data-backdrop="static">Launch modal</button>
 	<div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -312,6 +329,7 @@
 	<script src="{% static 'plugins/jquery-steps/jquery.steps.js'%}"></script>
 	{% comment %} <script src="vendors/scripts/steps-setting.js"></script> {% endcomment %}
 	<script src="{% static '/scripts/steps-setting.js' %}"></script>
+	
 </body>
 
 </html>

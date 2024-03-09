@@ -39,6 +39,7 @@
     <h3>View Books</h3>
     <table border="2px">
         <tr>
+            <th>Cover Page</th>
             <th>Book name</th>
             <th>Discription</th>
             <th>Publish year</th>
@@ -46,11 +47,22 @@
         </tr>
         {% for books in view_books %}
         <tr>
-            
+                {% comment %} <td><img src="{{ books.image.url }}"></td> {% endcomment %}
+                <td>
+                    {% if books.image %}
+                    <img src="{{ books.image.url }}" alt="Cover Image" width="150"><br>
+                    {% endif %}
+                </td>
                 <td>{{ books.title }}</td>
                 <td>{{ books.description }}</td>
                 <td>{{ books.year_publish }}</td>
-                <td>{{ books.file }}</td>
+                <td> 
+                    {% if books.file %}
+                    <a href="{{ books.file.url }}" target="_blank">View / Download PDF</a>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
            
         </tr>
          {% endfor %}

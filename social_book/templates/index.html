@@ -4,7 +4,7 @@
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+	<title>Social Book</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static '/images/apple-touch-icon.png' %}">
@@ -158,13 +158,13 @@
 						<span class="user-icon">
 							<img src="{% static '/images/photo1.jpg'%}" alt="">
 						</span>
-						<span class="user-name">Ross C. Lopez</span>
+						<span class="user-name">{{ username }}</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 						<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
 						<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
 						<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
-						<a class="dropdown-item" href="{% url 'login'%}"><i class="dw dw-logout"></i> Log Out</a>
+						<a class="dropdown-item" href="{% url 'logout'%}"><i class="dw dw-logout"></i> Log Out</a>
 					</div>
 				</div>
 			</div>
@@ -267,7 +267,7 @@
 							<span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="index.html">Dashboard style 1</a></li>
+							<li><a href="{% url 'index' %}">View All Books</a></li>
 							<li><a href="index2.html">Dashboard style 2</a></li>
 						</ul>
 					</li>
@@ -288,10 +288,15 @@
 						</a>
 						<ul class="submenu">
 							<li><a href="{% url 'upload_book' %}">Upload Books</a></li>
-							<li><a href="{% url 'view_book' %}">View Books</a></li>
+							{% comment %} <li><a href="{% url 'view_all_book' %}">View All Books</a></li> {% endcomment %}
+							<li><a href="{% url 'view_user_books' %}">My Books</a></li>
 						</ul>
 					</li>
-					<li class="dropdown">
+					<li>
+						<br>
+						<div class="sidebar-small-cap"><a href="{% url 'logout' %}" class="sidebar-small-cap" >Logout</a></div>
+					</li>
+					{% comment %} <li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="micon dw dw-library"></span><span class="mtext">Tables</span>
 						</a>
@@ -449,7 +454,7 @@
 							<span class="micon dw dw-paper-plane1"></span>
 							<span class="mtext">Landing Page <img src="{% static '/images/coming-soon.png' %}" alt="" width="25"></span>
 						</a>
-					</li>
+					</li> {% endcomment %}
 				</ul>
 			</div>
 		</div>
@@ -465,7 +470,7 @@
 					</div>
 					<div class="col-md-8">
 						<h4 class="font-20 weight-500 mb-10 text-capitalize">
-							Welcome back <div class="weight-600 font-30 text-blue">Johnny Brown!</div>
+							Welcome back <div class="weight-600 font-30 text-blue">{{ username }}</div>
 						</h4>
 						<p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure fugiat, veniam non quaerat mollitia animi error corporis.</p>
 					</div>
@@ -544,42 +549,38 @@
 				<table class="data-table table nowrap">
 					<thead>
 						<tr>
-							<th class="table-plus datatable-nosort">Product</th>
-							<th>Name</th>
-							<th>Color</th>
-							<th>Size</th>
+							<th class="table-plus datatable-nosort">Cover Page</th>
+							<th>Title</th>
+            				<th>Discription</th>
+            				<th>Publish year</th>
 							<th>Price</th>
-							<th>Oty</th>
-							<th class="datatable-nosort">Action</th>
+            				<th>PDF file</th>
 						</tr>
 					</thead>
 					<tbody>
+
+						{% for books in view_books %}
 						<tr>
 							<td class="table-plus">
-								<img src="{% static '/images/product-1.jpg'%}" width="70" height="70" alt="">
+								{% if books.image %}
+                    			<img src="{{ books.image.url }}" alt="Cover Image" width="150" width="70" height="70">
+                    			{% endif %}
 							</td>
-							<td>
-								<h5 class="font-16">Shirt</h5>
-								by John Doe
-							</td>
-							<td>Black</td>
-							<td>M</td>
-							<td>$1000</td>
-							<td>1</td>
-							<td>
-								<div class="dropdown">
-									<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-										<i class="dw dw-more"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-										<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-										<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-									</div>
-								</div>
-							</td>
+							<td>{{ books.title }}</td>
+                			<td>{{ books.description }}</td>
+                			<td>{{ books.year_publish }}</td>
+							<td>{{ books.cost }}</td>
+                			<td> 
+                    			{% if books.file %}
+                    				<a href="{{ books.file.url }}">View / Download PDF</a>
+                    			{% else %}
+                    				N/A
+                    			{% endif %}
+                			</td>
 						</tr>
-						<tr>
+						{% endfor %}
+
+						{% comment %} <tr>
 							<td class="table-plus">
 								<img src="{% static '/images/product-2.jpg' %}" width="70" height="70" alt="">
 							</td>
@@ -678,12 +679,12 @@
 									</div>
 								</div>
 							</td>
-						</tr>
+						</tr> {% endcomment %}
 					</tbody>
 				</table>
 			</div>
 			<div class="footer-wrap pd-20 mb-20 card-box">
-				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+				Social Book<a href="#" target="_blank">Raj Valvi</a>
 			</div>
 		</div>
 	</div>

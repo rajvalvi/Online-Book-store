@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main_app.models import CustomUser,Books
+from .models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,10 +17,3 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-    
-
-
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Books
-        fields = ['title', 'description', 'visibility', 'cost', 'year_publish', 'file']
